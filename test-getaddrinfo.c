@@ -1,3 +1,4 @@
+#define _POSIX_SOURCE
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netdb.h>
@@ -35,7 +36,7 @@ int main(int argc, char **argv) {
                 }
                 else
                 {
-                    if(ret != EAI_NONAME) fprintf(stderr, "error: %s(%s): %s\n", name, af ? "v4" : "v6", gai_strerror(ret));
+                    if(ret != EAI_NONAME) fprintf(stderr, "error: %s(%s): %s (%d)\n", name, af ? "v4" : "v6", gai_strerror(ret), ret);
                     nonamecount++;
                     errcount++;
                 }
