@@ -36,9 +36,15 @@ int main(int argc, char **argv) {
                 }
                 else
                 {
-                    if(ret != EAI_NONAME) fprintf(stderr, "error: %s(%s): %s (%d)\n", name, af ? "v4" : "v6", gai_strerror(ret), ret);
-                    nonamecount++;
-                    errcount++;
+                    if(ret == EAI_NONAME) fprintf(stderr, "error: %s(%s): %s (%d)\n", name, af ? "v4" : "v6", gai_strerror(ret), ret);
+                        nonamecount++;
+                        errcount++;
+                    }
+                    else
+                    {
+                        fprintf(stderr, "error: %s(%s): %s\n", name, af ? "v4" : "v6", gai_strerror(ret));
+                        errcount++;
+                    }
                 }
             }
             printf("%s: v4=%d v6=%d noname=%d errors=%d | ", name, v4count, v6count, nonamecount, errcount);
