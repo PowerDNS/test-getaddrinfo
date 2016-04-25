@@ -21,6 +21,7 @@ int main(int argc, char **argv) {
             int v6count=0;
             int errcount=0;
             int nonamecount=0;
+            int nodatacount=0;
 
             for(int af = 0; af < 2; ++af) {
                 hints.ai_family = af ? AF_INET : AF_INET6;
@@ -40,16 +41,18 @@ int main(int argc, char **argv) {
                         case EAI_NONAME:
                             nonamecount++;
                             break;
+#ifdef EAI_NODATA
                         case EAI_NODATA:
                             nodatacount++;
                             break;
+#endif
                         default:
                             fprintf(stderr, "error: %s(%s): %s (%d)\n", name, af ? "v4" : "v6", gai_strerror(ret), ret);
                             errcount++;
                     }
                 }
             }
-            printf("%s: v4=%d v6=%d noname=%d errors=%d | ", name, v4count, v6count, nonamecount, errcount);
+            printf("%s: v4=%d v6=%d noname=%d nodata=%d errors=%d | ", name, v4count, v6count, nonamecount, nodatacount, errcount);
         }
         printf("\n");
     }
