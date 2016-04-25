@@ -36,14 +36,16 @@ int main(int argc, char **argv) {
                 }
                 else
                 {
-                    if(ret == EAI_NONAME) fprintf(stderr, "error: %s(%s): %s (%d)\n", name, af ? "v4" : "v6", gai_strerror(ret), ret);
-                        nonamecount++;
-                        errcount++;
-                    }
-                    else
-                    {
-                        fprintf(stderr, "error: %s(%s): %s\n", name, af ? "v4" : "v6", gai_strerror(ret));
-                        errcount++;
+                    switch(ret) {
+                        case EAI_NONAME:
+                            nonamecount++;
+                            break;
+                        case EAI_NODATA:
+                            nodatacount++;
+                            break;
+                        default:
+                            fprintf(stderr, "error: %s(%s): %s (%d)\n", name, af ? "v4" : "v6", gai_strerror(ret), ret);
+                            errcount++;
                     }
                 }
             }
